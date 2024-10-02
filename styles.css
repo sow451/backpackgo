@@ -1,0 +1,174 @@
+/* page.css */
+
+/* Body and global styles */
+
+html,
+body {
+    margin: 0;
+    /* Removes default margin */
+    height: 100%;
+    min-height: 100vh;
+    background-color: #ffffff;
+    font-family: "Playpen Sans", cursive;
+    font-weight: 700;
+    background-image: url('./assets/geogbg.png');
+    /* Specify your image path */
+    background-size: cover;
+    /* Ensures the image covers the entire screen */
+    background-position: center;
+    /* Centers the background image */
+    background-repeat: no-repeat;
+    /* Prevents the image from repeating */
+}
+
+/* // <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 100 to 800 */
+
+.playpen-sans {
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* Navbar custom styles */
+.navbar-custom {
+    background-color: rgba(243, 243, 243, 0);
+    /* #def5e5; */
+    border-bottom: 2px solid #fcf2f046;
+}
+
+
+.main-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* background-color: green;    Green background */
+}
+
+.flexbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center items horizontally */
+    justify-content: center;
+    /* Center items vertically */
+    padding: 10px;
+    border-radius: 10px;
+    gap: 20px;
+    width: 76%;
+}
+
+.map-container {
+    justify-content: center;
+    margin: 10px;
+    height: 400px;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    /* Adjust height as needed */
+    /* background-color: rgb(122, 5, 5); */
+    /* Placeholder */
+}
+
+.input-container {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    width: 76%;
+    /* Centers buttons horizontally */
+    gap: 20px;
+    /* background-color: rgb(122, 5, 5); */
+
+}
+
+.input {
+    border: none;
+    /* Remove all borders */
+    /* Add only a bottom border */
+    outline: none;
+    /* Remove the default blue focus outline */
+    padding: 8px 0;
+    /* Add vertical padding for more space inside */
+    font-size: 1.1em;
+    /* Increase the font size for readability */
+    width: 200px;
+    /* Adjust the width of the input box */
+    border-radius: 8px;
+
+}
+
+input::placeholder {
+    color: #a3a3a3;
+    font-size: 15px;
+}
+
+
+.label {
+    display: block;
+    margin-top: 10px;
+    /* Space between input and label */
+
+    margin-right: 5px;
+    /* Space between input and label */
+    font-size: 0.9em;
+    color: gray;
+    /* Hint color */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Centers buttons horizontally */
+    gap: 20px;
+}
+
+/* General button styles */
+button {
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* BackpackGO button */
+#go {
+    background-color: #28a745;  /* Green color */
+    color: white;               /* White text */
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#go:hover {
+    background-color: #1c08d1;  /* Darker green on hover */
+    transform: scale(1.05);     /* Slight zoom effect */
+}
+
+/* Play Again button */
+#playagain {
+    background-color: #fff584;  /* Blue color */
+    color: grey;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#playagain:hover {
+    background-color: #fff584;   
+    color:rgb(30, 25, 25);
+    transform: scale(1.05);     /* Slight zoom effect */
+}
+
+/* button styles */
+@media (max-width: 600px) {
+    .input-container {
+        flex-direction: column;
+        width: 100%;
+    }
+    button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
