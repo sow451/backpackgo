@@ -1,52 +1,62 @@
 function findonMap() {
-    if (map) {
-
-        var lat = parseFloat(document.getElementById('lat').value);
-        var long = parseFloat(document.getElementById('long').value);
-
-        if (!isNaN(lat) && !isNaN(long)) {
-            // Format latitude and longitude to xx.yy format (2 decimal places). This can convert to string, so make it parseFloat again
-            // Clear the existing marker if it exists
-            if (currentMarker) {
-                map.removeLayer(currentMarker); // Remove the existing marker
-            }
-            
-            lat = parseFloat(lat.toFixed(2));
-            long = parseFloat(long.toFixed(2));
-
-            var newLocation = [lat, long];
-            map.setView(newLocation, 3); // Update the map to center at the new location
-
-            // Add the marker immediately
-            currentMarker = L.marker(newLocation).addTo(map)
-            .bindPopup(`You are here: Latitude:${lat}, Longitude:${long}`)
-            .openPopup();
-
-
-            // Reverse Geocoding API call using Nominatim
-            fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${long}`)
-                .then(response => response.json())
-                .then(data => {
-                    // Extract the country name from the response
-                    var country = data.address.country;
-                    
-                    // Add a new marker for the new location and store it in the global variable
-                    currentMarker =   L.marker(newLocation).addTo(map)
-                        .bindPopup(`You are here: Latitude:${lat}, Longitude:${long} which is in ${country}!`)
-                        .openPopup();
-                })
-                .catch(error => {
-                    console.error('Error fetching country:', error);
-                    alert(`You're in the water – hope you can swim!`);
-                });
-        
-            } else {
-            alert('Please enter valid latitude and longitude values!');
-        }
-
-    } else {
+    if (!map) {
         console.error('Map is not initialized');
+        return;
     }
+
+    const latRaw = document.getElementById('lat').value;
+    const longRaw = document.getElementById('long').value;
+    let lat = Number(latRaw);
+    let long = Number(longRaw);
+
+    if (!Number.isFinite(lat) || !Number.isFinite(long)) {
+        alert('Please enter valid latitude and longitude values!');
+        return;
+    }
+
+    if (lat < -90 || lat > 90 || long < -180 || long > 180) {
+        alert('Latitude must be between -90 and 90, and longitude between -180 and 180.');
+        return;
+    }
+
+    // Keep values readable for kids without losing directionality.
+    lat = Number(lat.toFixed(2));
+    long = Number(long.toFixed(2));
+
+    const newLocation = [lat, long];
+    map.setView(newLocation, 3);
+
+    if (currentMarker) {
+        map.removeLayer(currentMarker);
+        currentMarker = null;
+    }
+
+    currentMarker = L.marker(newLocation).addTo(map)
+        .bindPopup(`You are here: Latitude ${lat}, Longitude ${long}.`)
+        .openPopup();
+
+    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${long}`)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Reverse geocoding failed with status ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            const country = data && data.address ? data.address.country : null;
+            const locationText = country
+                ? `which is in ${country}!`
+                : `that seems to be in water or an unnamed place.`;
+            currentMarker
+                .bindPopup(`You are here: Latitude ${lat}, Longitude ${long}, ${locationText}`)
+                .openPopup();
+        })
+        .catch((error) => {
+            console.error('Error fetching place details:', error);
+            currentMarker
+                .bindPopup(`You are here: Latitude ${lat}, Longitude ${long}. This place may be in water.`)
+                .openPopup();
+        });
 }
 
 

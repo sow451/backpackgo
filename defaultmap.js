@@ -8,6 +8,7 @@ function defaultMap() {
     // Remove the existing marker if needed
         if (currentMarker) {
             map.removeLayer(currentMarker);
+            currentMarker = null;
         }
     
 }
